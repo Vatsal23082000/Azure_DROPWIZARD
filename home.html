@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AZURE | METRICS</title>
+  <link rel="stylesheet" href="home.css" />
+  <link href="new/css/all.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <header class="show">
+    <h1>
+      <big><b> Azure Metrics</b></big>
+    </h1>
+  </header>
+
+  <div id="content"></div>
+  <div class="main">
+    <form action="http://localhost:8080/Azure/Metrics" method="GET">
+        <div class="m">
+
+            
+            <div class="main2">
+                <div class="m1"><i class="fas fa-landmark fa-8x" ></i></div>
+                <div class="m2">
+                    <p>Client ID: <input type="text" name="client" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></p>
+                    <p>Password: <input type="text" name="password"  placeholder="Password"></p>
+                    <p>Subscription ID: <input type="text" name="Subscription"  placeholder="Subscription-ID"></p>
+                    <p>
+                      Metric Name:
+                      <select name="metric_name" id="metric_name">
+                        <option value="Availability">Availability</option>
+                        <option value="Ingress">Ingress</option>
+                        <option value="Engress">Engress</option>
+                        <option value="Success E2E Latency">Success E2E Latency</option>
+                        <option value="Success Server Latency">Success Server Latency</option>
+                        <option value="Transactions">Transactions</option>
+                      </select>
+                    </p>
+                    <p>Days: <input type="number" name="days" id="days"  placeholder="Number of days"></p>
+                    <p>
+                      Epoch Value:
+                      <select name="eco" id="epoch">
+                        <option value="1"> 01</option>
+                        <option value="5"> 05</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="60">60</option>
+                      </select>
+                    </p>
+                    <p>
+                      Aggregation Type:
+                      <select name="Arg" id="Aggregation">
+                        <option value="Average"> Average</option>
+                        <option value="Maximum">Maximum</option>
+                        <option value="Minimum">Minimum</option>
+                        <option value="Total">Total</option>
+                        <option value="Count">Count</option>
+                      </select>
+                    </p>
+                    <input type="submit" value="Submit" onClick="myFunction()" >
+                    <script>
+                      function myFunction() {
+                        window.location.href="new.html";
+                      }
+                    </script>
+                </div>
+             
+              
+              </div >
+            
+        </div>
+  </form>
+  </div>
+ 
+</body>
+
+</html>
