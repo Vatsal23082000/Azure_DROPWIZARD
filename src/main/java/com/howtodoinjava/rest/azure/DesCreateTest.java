@@ -26,7 +26,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class DesCreateTest {
         static String tit;
         static int hour;
         static int frame;
+        static String ylab;
 public static class LineChartExample extends JFrame {
 
         private static final long serialVersionUID = 1L;
@@ -51,7 +54,7 @@ public static class LineChartExample extends JFrame {
             JFreeChart chart = ChartFactory.createLineChart(
                     tit, // Chart title
                     "Date and Time", // X-Axis Label
-                    "Average Value", // Y-Axis Label
+                    ylab+" Value", // Y-Axis Label
                     dataset
             );
             ChartPanel chartPanel = new ChartPanel(chart) ;
@@ -112,8 +115,8 @@ public static class LineChartExample extends JFrame {
             rangeAxis.setTickLabelFont(nwfont);
             catAxis.setTickLabelFont(nwfont);
             File imageFile = new File("LineChart.png");
-            int width = 1100;
-            int height = 600;
+            int width = 1500;
+            int height = 700;
             plot.setOutlinePaint(Color.GRAY);
             plot.setOutlineStroke(new BasicStroke(2.0f));
             try {
@@ -153,7 +156,9 @@ public static class LineChartExample extends JFrame {
                               @NotNull
                               @QueryParam("eco") int d2,
                               @NotNull
-                              @QueryParam("Arg") String str) throws SQLException {
+                              @QueryParam("Arg") String str,
+                              @NotNull
+                              @QueryParam("resource") String res) throws SQLException, IOException {
             String tenant = "f636e1c4-18a5-4f8a-9e41-e247bae1387d";
            /* String clientId = "5f52ade6-0fd1-4b73-b0c7-4a22e8e9daf2";
 
@@ -165,7 +170,8 @@ public static class LineChartExample extends JFrame {
             AzureProfile profile = new AzureProfile(tenant, sub, com.azure.core.management.AzureEnvironment.AZURE);//AzureProfile(tenant,sub,AzureEnvironment.AZURE);
             ApplicationTokenCredentials crede = new ApplicationTokenCredentials(clientId, tenant, passwd, AzureEnvironment.AZURE);
             Azure azure = Azure.authenticate(crede).withSubscription("3ddda1c7-d1f5-4e7b-ac81-0523f483b3b3");
-            String Id = "/subscriptions/3ddda1c7-d1f5-4e7b-ac81-0523f483b3b3/resourceGroups/juhig/providers/Microsoft.Storage/storageAccounts/juhig";
+            String Id = "/subscriptions/3ddda1c7-d1f5-4e7b-ac81-0523f483b3b3/resourceGroups/" + res + "/providers/Microsoft.Storage/storageAccounts/" +res;
+            //String Id = "/subscriptions/3ddda1c7-d1f5-4e7b-ac81-0523f483b3b3/resourceGroups/juhig/providers/Microsoft.Storage/storageAccounts/juhig";
             DateTime record = DateTime.now();
             System.out.println("Enter a Metrics Name from Availability, Egress, Ingress, Success E2E Latency, Success Server Latency, Transactions");
 
@@ -183,6 +189,7 @@ public static class LineChartExample extends JFrame {
             System.out.println("Enter the Aggregation (Average, Minimum, Maximum, Total, Count):");
 
             String arg = str;
+            ylab=arg;
             for (MetricDefinition metricDefinition : azure.metricDefinitions().listByResource(Id)) {
                 // find metric definition for Transactions
                 //System.out.println("Connection Done");
@@ -200,45 +207,54 @@ public static class LineChartExample extends JFrame {
 
                         for (TimeSeriesElement timeElement : metric.timeseries()) {
 
-                            for (MetadataValue metadata : timeElement.metadatavalues()) {
 
-                            }
                             System.out.println("\t\tData: ");
+                            PrintWriter out = new PrintWriter(new FileWriter("y.txt"));
+                            PrintWriter out1 = new PrintWriter(new FileWriter("x.txt"));
                             for (MetricValue data : timeElement.data()) {
 
                                 if(arg.equals("Average"))
                                 {
                                     a1.add(data.average());
+                                    out.println(data.average());
                                 }
                                 else if (arg.equals("Total"))
                                 {
                                     a1.add(data.total());
+                                    out.println(data.total());
                                 }
                                 else if (arg.equals("Maximum"))
                                 {
                                     a1.add(data.maximum());
+                                    out.println(data.maximum());
                                 }
                                 else if (arg.equals("Minimum"))
                                 {
                                     a1.add(data.minimum());
+                                    out.println(data.minimum());
                                 }
                                 else if (arg.equals("Count"))
                                 {
                                     a1.add(data.count());
+                                    out.println(data.count());
                                 }
                                 a2.add(data.timeStamp());
-
+                                out.println();
+                                out1.println(data.timeStamp());
                             }
+                            out.close();
+                            out1.close();
                         }
                     }
                     break;
                 }
             }
+            //Process p = Runtime.getRuntime().exec("/usr/bin/python3 /Users/vatsal.gujarati/Desktop/DropWizardExample/new.py");
             SwingUtilities.invokeLater(() -> {
                 LineChartExample example = new LineChartExample("Metrics");
                 example.setAlwaysOnTop(true);
                 example.pack();
-                example.setSize(1100, 500);
+                example.setSize(1800, 1000);
                 example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                example.setVisible(true);
                 int domainAxis = example.getX();

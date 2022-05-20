@@ -9,9 +9,14 @@
     padding: 30px;
     font-size: 20px;
     font-size: 50px;
+    height: 10vh;
+
     margin: 0mm;
     border-radius: 10px;
-    
+    background-image: url(imp2.png);
+    background-size:contain;
+      background-repeat: no-repeat;
+      margin-left: 1400px;
   }
 
   * {
@@ -20,7 +25,7 @@
   }
   
   .show{
-    background-image: url(21.jpg);
+    background-image: url(imp.png);
     background-size:contain;
       background-repeat: no-repeat;
      margin-left: 10px;
@@ -28,9 +33,9 @@
   }
   body {
     
-  height: 100vh;
+  height: 75vh;
   width: 100vw;
-background-image: url(cool13.jpg);
+    background-color: whitesmoke;
 background-size: cover;
     background-repeat: no-repeat;
     
@@ -168,8 +173,9 @@ margin-left: 600px;
   }
   
  input[type="submit"]{
-   padding: 8px 30px;
-   margin-left: 140px;
+   padding: 8px 45px;
+   margin-left: 180px;
+   margin-top: 45px;
    border-radius: 10px;
    border: 2px solid black;
    cursor: pointer;
